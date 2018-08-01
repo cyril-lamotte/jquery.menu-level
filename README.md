@@ -1,13 +1,14 @@
 # jQuery Menu Level
 
-Multi-level navigation
+An accessible multi-level navigation for mobile.
 
 
 ## Features
 
-* A clone link of the parent link is created inside de sublevel.
-* Mobile nav
-* IE8+ compliant
+* A clone link of the parent link can be created inside de sublevel.
+* Back button
+* ARIA
+* IE11+
 
 
 ## Markup

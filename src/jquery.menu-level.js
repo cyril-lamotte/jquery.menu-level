@@ -52,7 +52,7 @@
         .addClass('mlvl')
         .wrapInner('<div class="' + plugin.class + '__level ' + plugin.class + '__level--top"></div>')
         .find(plugin.settings.sublevel)
-          .wrap('<div class="' + plugin.class + '__level" aria-hidden="true"></div>')
+          .wrap('<div class="' + plugin.class + '__level ' + plugin.class + '__level--is-hidden" aria-hidden="true"></div>')
         .end()
           .find(plugin.selector + '__level').prev()
             .addClass(plugin.class + '__parent');
@@ -129,10 +129,6 @@
 
       // "Back" buttons.
       plugin.$backBtns = $element.find('button.' + plugin.class + '__back');
-
-      // Hide sublevels.
-      plugin.$subLevels
-        .addClass(plugin.class + '__level--is-hidden');
 
     };
 
