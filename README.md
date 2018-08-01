@@ -5,16 +5,16 @@ An accessible multi-level navigation for mobile.
 
 ## Features
 
-* A clone link of the parent link can be created inside de sublevel.
-* Back button
-* ARIA
 * IE11+
+* ARIA
+* Back button
+* A clone link of the parent link can be created inside de sublevel.
 
 
 ## Markup
 
 ```html
-<script src="assets/js/plugins/jquery.menu-level.js"></script>
+<script src="jquery.menu-level.js"></script>
 ```
 
 ```html
@@ -36,7 +36,7 @@ An accessible multi-level navigation for mobile.
 
 ## Theme
 
-> [menu-level.scss](menu-level.scss)
+> [menu-level.scss](src/menu-level.scss)
 
 
 ## JavaScript
