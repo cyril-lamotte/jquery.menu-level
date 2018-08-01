@@ -1,0 +1,97 @@
+/* =============================================================================
+   Menu level
+============================================================================= */
+
+.mlvl {
+  overflow: auto;
+}
+
+.mlvl__level {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #444444;
+  transition: transform 150ms ease-out;
+  transform: translate3d(0, 0, 0);
+  z-index: 2;
+}
+
+.mlvl__level--top {
+  position: static;
+  background: none;
+  overflow: hidden;
+}
+
+// Hide sublevels.
+.mlvl__level--is-hidden {
+  transform: translate3d(100%, 0, 0);
+
+  .no-csstransitions & {
+    display: none;
+  }
+
+}
+
+.mlvl__back {
+  display: block;
+  width: 100%;
+  position: 20px;
+}
+
+
+
+
+// -----------------------------------------------------------------------------
+// Demo
+// -----------------------------------------------------------------------------
+
+.nav {
+  background: #333;
+  color: #fff;
+  width: 300px;
+  font-size: 1.2rem;
+  height: 150px;
+  overflow: auto;
+
+
+  a {
+    color: #fff;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      border-bottom: 1px solid #666;
+    }
+
+    a {
+      display: block;
+      padding: 10px 20px;
+      text-decoration: none;
+
+      &.mlvl__parent:not(.mlvl__parent-clone):after {
+        content: ' >';
+      }
+
+
+      &:hover {
+        background: #555;
+      }
+    }
+
+  }
+
+
+  .mlvl__back-icon {
+
+    &:before {
+      content: '<';
+    }
+
+  }
+
+}

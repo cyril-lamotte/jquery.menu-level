@@ -1,0 +1,19 @@
+{
+  "name": "Projet",
+  "version": "1.0.0",
+  "description": "SASS",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "latest",
+    "gulp": "latest",
+    "gulp-postcss": "latest",
+    "gulp-sass": "latest",
+    "node-sass": "latest"
+  }
+}

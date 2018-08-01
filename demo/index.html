@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+  <meta charset="utf-8">
+
+  <!-- Définir le niveau de zoom -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Menu level</title>
+
+  <link rel="stylesheet" href="../src/menu-level.css">
+
+  <style>
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      font-family: sans-serif;
+    }
+
+    .wrapper {
+      padding: 20px;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<div class="outer-wrap">
+  <div class="wrapper">
+
+    <h1>Menu level</h1>
+
+
+    <button type="button" data-init="create">Create</button>
+    <button type="button" data-init="destroy">Destroy</button>
+    <button type="button" data-init="first">Back to first level</button>
+
+
+
+    <nav class="nav" role="navigation">
+
+      <ul>
+        <li>
+          <a href="#">A Lorem ipsum niveau 1</a>
+          <ul>
+            <li>
+              <a href="#">A Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">B Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">C Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#">B Lorem ipsum niveau 1</a>
+          <ul>
+            <li>
+              <a href="#">A Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">B Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">C Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#">C Lorem ipsum niveau 1</a>
+          <ul>
+            <li>
+              <a href="#">A Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">B Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">C Lorem ipsum niveau 2</a>
+              <ul>
+                <li><a href="#">A Lorem ipsum niveau 3</a></li>
+                <li><a href="#">B Lorem ipsum niveau 3</a></li>
+                <li><a href="#">C Lorem ipsum niveau 3</a></li>
+                <li><a href="#">D Lorem ipsum niveau 3</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+
+    </nav>
+
+
+  </div>
+
+</div><!--/outer-wrap-->
+
+
+<!-- Scripts at the bottom for better performances -->
+<script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+<script src="../src/jquery.menu-level.js"></script>
+
+<script>
+
+$(function() {
+
+  var $menu = $('.nav');
+
+  $('[data-init="create"]').on('click', function() {
+    $menu.menuLevel();
+  });
+
+  $('[data-init="first"]').on('click', function() {
+    $menu.trigger('go-to-first-panel.mlvl');
+  });
+
+  $('[data-init="destroy"]').on('click', function() {
+    $menu.trigger('destroy.mlvl');
+  });
+
+}); // /ready
+
+</script>
+
+
+
+</body>
+</html>
