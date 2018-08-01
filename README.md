@@ -51,7 +51,7 @@ Options            | Type             | Description                             
 prefix             | string           | Classes prefix                          | 'mlvl'
 sublevel           | string           | CSS Selector for sublevel               | 'ul ul'
 repeatParentInSub  | bool             | Create a button to go back in sublevels | true
-backLabel          | bool or string   | Back button's label                     | 'parent' ('parent' | string)
+backLabel          | bool or string   | Back button's label                     | 'parent' ('parent' or string)
 backAriaLabel      | string           | Back button's aria label                | 'Retour'
 onNav              | method           | Execute code after a level change       | function() {}
 
