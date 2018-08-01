@@ -33,12 +33,14 @@
 .mlvl__back {
   display: block;
   width: 100%;
-  position: 20px; }
+  padding: 20px; }
+  .mlvl__back:hover, .mlvl__back:active, .mlvl__back:focus {
+    background: #f60; }
 
 .nav {
   background: #333;
   color: #fff;
-  width: 300px;
+  width: 400px;
   font-size: 1.2rem;
   height: 150px;
   overflow: auto; }

@@ -45,7 +45,40 @@
 
       <ul>
         <li>
-          <a href="#">A Lorem ipsum niveau 1</a>
+          <a href="#">Rubrique A</a>
+          <ul>
+            <li>
+              <a href="#">Rubrique A, niveau 2</a>
+              <ul>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Rubrique A, niveau 2</a>
+              <ul>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Rubrique A, niveau 2</a>
+              <ul>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+                <li><a href="#">Rubrique A2, niveau 3</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="#">Rubrique B</a>
           <ul>
             <li>
               <a href="#">A Lorem ipsum niveau 2</a>
@@ -78,40 +111,7 @@
         </li>
 
         <li>
-          <a href="#">B Lorem ipsum niveau 1</a>
-          <ul>
-            <li>
-              <a href="#">A Lorem ipsum niveau 2</a>
-              <ul>
-                <li><a href="#">A Lorem ipsum niveau 3</a></li>
-                <li><a href="#">B Lorem ipsum niveau 3</a></li>
-                <li><a href="#">C Lorem ipsum niveau 3</a></li>
-                <li><a href="#">D Lorem ipsum niveau 3</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">B Lorem ipsum niveau 2</a>
-              <ul>
-                <li><a href="#">A Lorem ipsum niveau 3</a></li>
-                <li><a href="#">B Lorem ipsum niveau 3</a></li>
-                <li><a href="#">C Lorem ipsum niveau 3</a></li>
-                <li><a href="#">D Lorem ipsum niveau 3</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">C Lorem ipsum niveau 2</a>
-              <ul>
-                <li><a href="#">A Lorem ipsum niveau 3</a></li>
-                <li><a href="#">B Lorem ipsum niveau 3</a></li>
-                <li><a href="#">C Lorem ipsum niveau 3</a></li>
-                <li><a href="#">D Lorem ipsum niveau 3</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-
-        <li>
-          <a href="#">C Lorem ipsum niveau 1</a>
+          <a href="#">Rubrique C</a>
           <ul>
             <li>
               <a href="#">A Lorem ipsum niveau 2</a>
@@ -162,6 +162,7 @@
 $(function() {
 
   var $menu = $('.nav');
+  $menu.menuLevel();
 
   $('[data-init="create"]').on('click', function() {
     $menu.menuLevel();

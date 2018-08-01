@@ -14,6 +14,7 @@
       sublevel: 'ul ul',
       repeatParentInSub: true,
       backLabel: 'parent',
+      backAriaLabel: 'Retour',
       onNav: function() {}
     };
 
@@ -31,29 +32,66 @@
       plugin.class = plugin.settings.prefix;
       plugin.selector = '.' + plugin.settings.prefix;
 
+      initHTML();
+      initElementsShortcuts();
+      initLevelsHTML();
+
+      removeKeyboardFocusable();
+      setLevelsEvents();
+      setOtherEvents();
+
+    };
+
+
+    // Add markup and classes.
+    var initHTML = function() {
+
       // Wrap all levels.
       // and add class on parents.
       $element
         .addClass('mlvl')
         .wrapInner('<div class="' + plugin.class + '__level ' + plugin.class + '__level--top"></div>')
         .find(plugin.settings.sublevel)
-          .wrap('<div class="' + plugin.class + '__level"></div>')
+          .wrap('<div class="' + plugin.class + '__level" aria-hidden="true"></div>')
         .end()
           .find(plugin.selector + '__level').prev()
             .addClass(plugin.class + '__parent');
 
+    };
+
+
+    // Save shortcuts variables.
+    var initElementsShortcuts = function() {
+
       // Save levels.
-      plugin.settings.$topLevel = $(plugin.selector + '__level--top');
-      plugin.settings.$subLevels = plugin.settings.$topLevel.find(plugin.selector + '__level');
+      plugin.$topLevel = $(plugin.selector + '__level--top');
+      plugin.$subLevels = plugin.$topLevel.find(plugin.selector + '__level');
 
       // Links with sublevel.
-      plugin.settings.$menuTriggers = $element.find(plugin.selector +'__parent');
+      plugin.$menuTriggers = $element.find(plugin.selector +'__parent');
 
-      // Create back buttons.
-      $.each(plugin.settings.$subLevels, function(i, el) {
+    };
+
+
+    // Keyboard management.
+    // Make all links unfocusable (except the first level).
+    var removeKeyboardFocusable = function() {
+
+      plugin.$subLevels
+        .find('a, button')
+          .attr('tabindex', '-1');
+
+    };
+
+
+    // Add markup and classes.
+    var initLevelsHTML = function() {
+
+      $.each(plugin.$subLevels, function(i, el) {
 
         var $sub = $(this);
         var backLabel = '';
+        var backAriaLabel = plugin.settings.backAriaLabel;
 
         // Create clone links.
         if (plugin.settings.repeatParentInSub) {
@@ -62,7 +100,7 @@
           $('<li class="' + plugin.class + '__clone-item"></li>').prependTo($sub.find('> ul'));
 
           $sub.prev().clone().prependTo($sub.find('> ul > li.' + plugin.class + '__clone-item'))
-            .removeClass('active ' + plugin.selector + '__parent')
+            .removeClass(plugin.class + '__parent')
             .addClass(plugin.class + '__parent-clone');
         }
 
@@ -76,97 +114,157 @@
 
         } else {
           backLabel = plugin.settings.backLabel;
+          backAriaLabel = '';
         }
 
-
-        $sub.prepend('<button type="button" class="' + plugin.class + '__back"><span class="' + plugin.class + '__back-icon"></span><span>' + backLabel + '</span></button>');
-
-
+        // Create back buttons.
+        $sub.prepend('<button type="button" class="' + plugin.class + '__back" aria-label="' + backAriaLabel + ' ' + backLabel + '"><span class="' + plugin.class + '__back-icon" aria-hidden="true"></span><span>' + backLabel + '</span></button>');
 
       });
 
+      // Accessibility, parents sould be buttons.
+      plugin.$menuTriggers
+        .attr('role', 'button')
+        .attr('aria-expanded', false);
 
       // "Back" buttons.
-      plugin.settings.$backBtns = $element.find('button.' + plugin.class + '__back');
+      plugin.$backBtns = $element.find('button.' + plugin.class + '__back');
 
       // Hide sublevels.
-      plugin.settings.$subLevels.addClass(plugin.class + '__level--is-hidden');
-
-      // Attach events.
-      setEvents();
+      plugin.$subLevels
+        .addClass(plugin.class + '__level--is-hidden');
 
     };
 
 
-    // Attach events
-    var setEvents = function() {
+    // Remove focus on other levels and add focus on current level.
+    var manageFocus = function($sub) {
+
+      // Keyboard management : Remove focusable on all levels.
+      $element.find('a, button').attr('tabindex', '-1');
+
+
+      // In this case, we go the parent level.
+      if ($sub.hasClass('mlvl__level--is-hidden')) {
+        $sub = getParentLevel($sub);
+      }
+
+      // Make this level focusable.
+      $sub.find('> button, > ul > li > a')
+        .removeAttr('tabindex');
+
+      // And move focus to first element.
+      $sub.find('> button, > ul > li > a').first().focus();
+
+    };
+
+
+    // Get the parent level.
+    var getParentLevel = function($sub) {
+      return $sub.parents(plugin.selector + '__level').first();
+    };
+
+
+    // Attach levels events.
+    var setLevelsEvents = function() {
 
       // Show.
-      plugin.settings.$subLevels.on('show.mlvl', function(event) {
+      plugin.$subLevels.on('show.mlvl', function(event) {
+
+        var $sub = $(this);
 
         event.stopPropagation();
-        $(this).removeClass(plugin.class + '__level--is-hidden');
+
+        $sub
+          .removeClass(plugin.class + '__level--is-hidden')
+          .attr('aria-hidden', false)
+          .prev()
+            .attr('aria-expanded', true);
 
         // Update height of element.
-        plugin.settings.$topLevel.css({'height':  $(this).height()});
+        plugin.$topLevel.css({'height':  $sub.height()});
+
+      }).on('transitionend', function(event) {
+
+        // Do after CSS animation.
+        event.stopPropagation();
+        manageFocus($(this));
         plugin.settings.onNav();
 
-      });
+      }).on('hide.mlvl', function(event, options) {
 
-      // Hide current level.
-      plugin.settings.$subLevels.on('hide.mlvl', function(event, options) {
+        // Hide current level.
+
+        var $sub = $(this);
 
         event.stopPropagation();
-        $(this).addClass(plugin.class + '__level--is-hidden');
+        $sub
+          .addClass(plugin.class + '__level--is-hidden')
+          .attr('aria-hidden', true)
+          .prev()
+            .attr('aria-expanded', false);
 
         // Update height of parent element.
-        var $parent = $(this).parents(plugin.selector + '__level').first();
+        var $parent = getParentLevel($sub);
         var height = $parent.height();
 
-        if ($parent[0] == plugin.settings.$topLevel[0] || options && options.first) {
+        if ($parent[0] == plugin.$topLevel[0] || options && options.first) {
           height = 'auto';
         }
 
-        plugin.settings.$topLevel.css({'height': height});
-        plugin.settings.onNav();
+        plugin.$topLevel.css({'height': height});
 
       });
 
+    };
+
+
+    // Attach buttons and global events.
+    var setOtherEvents = function() {
+
       // Level's triggers.
-      plugin.settings.$menuTriggers.on('click.mlvl', function (event) {
+      plugin.$menuTriggers.on('click.mlvl', function (event) {
         event.preventDefault();
         $(this).next().trigger('show.mlvl');
       });
 
+
       // Back.
-      plugin.settings.$backBtns.on('click.mlvl', function (event) {
+      plugin.$backBtns.on('click.mlvl', function (event) {
         $(this).parent().trigger('hide.mlvl');
       });
 
+
       // Show the first level.
       $element.on('go-to-first-panel.mlvl', function() {
-        plugin.settings.$subLevels.filter(':not(.mlvl__level--is-hidden)').trigger('hide.mlvl', {'first': true});
+        plugin.$subLevels.filter(':not(.mlvl__level--is-hidden)').trigger('hide.mlvl', {'first': true});
       });
+
 
       // Destroy plugin.
       $element.on('destroy.mlvl', function() {
-
-        $element.off(plugin.selector);
-        plugin.settings.$subLevels.off(plugin.selector);
-        $element.find(plugin.selector + '__level--top > ul').unwrap();
-        $element.find(plugin.selector + '__back, ' + plugin.selector + '__clone-item').remove();
-        $element.find(plugin.selector + '__level > div, ' + plugin.selector + '__level > ul').unwrap();
-        plugin.settings.$menuTriggers.removeClass(plugin.class + '__parent').off(plugin.selector);
-        $.removeData($element[0], 'menuLevel');
-
+        destroy();
       });
+
+    }
+
+
+    // Remove all plugin HTML, class and events.
+    var destroy = function() {
+
+      $element.off(plugin.selector);
+      plugin.$subLevels.off(plugin.selector);
+      $element.find(plugin.selector + '__level--top > ul').unwrap();
+      $element.find(plugin.selector + '__back, ' + plugin.selector + '__clone-item').remove();
+      $element.find(plugin.selector + '__level > div, ' + plugin.selector + '__level > ul').unwrap();
+      plugin.$menuTriggers.removeClass(plugin.class + '__parent').off(plugin.selector);
+      $.removeData($element[0], 'menuLevel');
 
     };
 
     plugin.init();
 
   };
-
 
 
   $.fn.menuLevel = function(options) {
