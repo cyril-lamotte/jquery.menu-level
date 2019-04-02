@@ -105,13 +105,15 @@
         }
 
         // If there is no back label, get parent's label.
-        if (plugin.settings.backLabel == 'parent') {
+        if (plugin.settings.backLabel === 'parent') {
           backLabel = $sub.parents(plugin.selector + '__level').first().prev().text();
 
           if (!backLabel) {
             backLabel = 'Menu principal';
           }
 
+        } else if (plugin.settings.backLabel === 'current') {
+          backLabel = $sub.prev().text();
         } else {
           backLabel = plugin.settings.backLabel;
           backAriaLabel = '';
@@ -204,7 +206,7 @@
         var $parent = getParentLevel($sub);
         var height = $parent.height();
 
-        if ($parent[0] == plugin.$topLevel[0] || options && options.first) {
+        if ($parent[0] === plugin.$topLevel[0] || options && options.first) {
           height = 'auto';
         }
 
@@ -250,6 +252,7 @@
 
       $element.off(plugin.selector);
       plugin.$subLevels.off(plugin.selector);
+      $element.removeClass('mlvl');
       $element.find(plugin.selector + '__level--top > ul').unwrap();
       $element.find(plugin.selector + '__back, ' + plugin.selector + '__clone-item').remove();
       $element.find(plugin.selector + '__level > div, ' + plugin.selector + '__level > ul').unwrap();
